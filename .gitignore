@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+.vscode/
+.env
+
+Dataset/DataSet.csv
+Dataset/Cleaned_DataSet.csv

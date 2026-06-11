@@ -1,0 +1,9 @@
+            #Day -1 
+
+    Variables 
+    input 
+    if else
+    for loop 
+    function
+
+    conpleted successfully 
