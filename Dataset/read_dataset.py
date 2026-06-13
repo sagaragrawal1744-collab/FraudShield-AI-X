@@ -1,14 +1,22 @@
 import pandas as pd
 
-data = pd.read_csv("Cleaned_DataSet.csv")
+data = pd.read_csv("Cleaned_DataSet_V2.csv")
 
-missing_percentage = (data.isnull().sum() / len(data)) * 100
+# Fill numeric columns with median
+numeric_columns = data.select_dtypes(include=["float64", "int64"]).columns
 
-cleaned_data_v2 = data.loc[:, missing_percentage <= 90]
+for col in numeric_columns:
+    data[col] = data[col].fillna(data[col].median())
 
-print("Original Shape:", data.shape)
-print("New Shape:", cleaned_data_v2.shape)
+# Fill text columns with mode
+text_columns = data.select_dtypes(include=["object", "str"]).columns
 
-cleaned_data_v2.to_csv("Cleaned_DataSet_V2.csv", index=False)
+for col in text_columns:
+    data[col] = data[col].fillna(data[col].mode()[0])
 
-print("Second cleaned dataset created successfully!")
+print("Remaining Missing Values:")
+print(data.isnull().sum().sum())
+
+data.to_csv("Cleaned_DataSet_V3.csv", index=False)
+
+print("Final model-ready dataset created!")
