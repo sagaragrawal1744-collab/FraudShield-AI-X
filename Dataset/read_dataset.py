@@ -1,10 +1,14 @@
 import pandas as pd
 
-data = pd.read_csv("DataSet.csv")
+data = pd.read_csv("Cleaned_DataSet.csv")
 
-cleaned_data = data.dropna(axis=1, how="all")
+missing_percentage = (data.isnull().sum() / len(data)) * 100
 
-cleaned_data.to_csv("Cleaned_DataSet.csv", index=False)
+cleaned_data_v2 = data.loc[:, missing_percentage <= 90]
 
-print("Cleaned dataset saved successfully!")
-print("Shape:", cleaned_data.shape)
+print("Original Shape:", data.shape)
+print("New Shape:", cleaned_data_v2.shape)
+
+cleaned_data_v2.to_csv("Cleaned_DataSet_V2.csv", index=False)
+
+print("Second cleaned dataset created successfully!")

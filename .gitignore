@@ -3,5 +3,4 @@ __pycache__/
 .vscode/
 .env
 
-Dataset/DataSet.csv
-Dataset/Cleaned_DataSet.csv
+Dataset/*.csv
