@@ -12,8 +12,13 @@ for col in text_columns:
 
 X = data.drop(["F3912", "F3924"], axis=1)
 
-fraud_rows = data[data["F3924"] == 1]
+row = int(input("Enter row number: "))
 
-for idx in fraud_rows.index[:20]:
-    prediction = model.predict(X.loc[[idx]])[0]
-    print("Row:", idx, "Actual:", 1, "Prediction:", prediction)
+sample = X.loc[[row]]
+
+prediction = model.predict(sample)
+
+if prediction[0] == 1:
+    print("🚨 Fraud Detected")
+else:
+    print("✅ Normal Transaction")
