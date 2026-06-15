@@ -19,10 +19,13 @@ X = data.drop(["F3912", "F3924"], axis=1)
 def home():
 
     result = ""
+    row_value = ""
 
     if request.method == "POST":
 
-        row = int(request.form["row"])
+        row_value = request.form["row"]
+
+        row = int(row_value)
 
         sample = X.loc[[row]]
 
@@ -33,7 +36,11 @@ def home():
         else:
             result = "✅ Normal Transaction"
 
-    return render_template("index.html", result=result)
+    return render_template(
+        "index.html",
+        result=result,
+        row_value=row_value
+    )
 
 if __name__ == "__main__":
     app.run(debug=True)
