@@ -1,25 +1,114 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>FraudShield-AI-X</title>
+
+<title>FraudShield-AI-X</title>
+
+<style>
+
+body{
+    background:#0f172a;
+    font-family:Arial,sans-serif;
+    color:white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
+
+.card{
+    background:#1e293b;
+    padding:40px;
+    border-radius:20px;
+    width:500px;
+    text-align:center;
+    box-shadow:0px 0px 25px rgba(0,0,0,0.5);
+}
+
+h1{
+    color:#38bdf8;
+}
+
+input{
+    width:80%;
+    padding:12px;
+    border:none;
+    border-radius:8px;
+    margin-top:15px;
+}
+
+button{
+    margin-top:20px;
+    padding:12px 25px;
+    border:none;
+    border-radius:8px;
+    background:#38bdf8;
+    color:white;
+    cursor:pointer;
+    font-size:16px;
+}
+
+button:hover{
+    background:#0284c7;
+}
+
+.result{
+    margin-top:25px;
+    font-size:22px;
+    font-weight:bold;
+}
+
+.stats{
+    margin-top:25px;
+    background:#334155;
+    padding:15px;
+    border-radius:10px;
+}
+
+</style>
+
 </head>
+
 <body>
 
-    <h1>FraudShield-AI-X</h1>
+<div class="card">
 
-    <form method="POST">
+<h1>🛡 FraudShield-AI-X</h1>
 
-        <label>Enter Transaction Row:</label>
+<p>AI Powered Banking Fraud Detection System</p>
 
-        <input type="number" name="row" required>
+<form method="POST">
 
-        <button type="submit">
-            Predict
-        </button>
+<input type="number"
+name="row"
+placeholder="Enter Transaction Row Number"
+required>
 
-    </form>
+<br>
 
-    <h2>{{ result }}</h2>
+<button type="submit">
+Predict
+</button>
+
+</form>
+
+<div class="result">
+{{ result }}
+</div>
+
+<div class="stats">
+
+<h3>Model Performance</h3>
+
+<p>Accuracy : 99.94%</p>
+
+<p>Fraud Recall : 95.24%</p>
+
+<p>F1 Score : 97.56%</p>
+
+</div>
+
+</div>
 
 </body>
 </html>
