@@ -8,16 +8,14 @@
 <style>
 
 body{
+    margin:0;
     background:#0f172a;
     color:white;
     font-family:Arial,sans-serif;
-    margin:0;
-    padding:0;
 }
 
 .container{
     width:90%;
-    max-width:1000px;
     margin:auto;
     padding:20px;
 }
@@ -31,11 +29,26 @@ body{
     color:#38bdf8;
 }
 
+.cards{
+    display:flex;
+    flex-wrap:wrap;
+    gap:15px;
+}
+
+.stat{
+    flex:1;
+    min-width:200px;
+    background:#1e293b;
+    padding:20px;
+    border-radius:15px;
+    text-align:center;
+}
+
 .card{
     background:#1e293b;
     padding:20px;
     border-radius:15px;
-    margin-bottom:20px;
+    margin-top:20px;
 }
 
 input{
@@ -46,13 +59,13 @@ input{
 }
 
 button{
+    margin-top:15px;
     padding:12px 25px;
     border:none;
     border-radius:10px;
     background:#38bdf8;
     color:white;
     cursor:pointer;
-    margin-top:15px;
 }
 
 button:hover{
@@ -62,26 +75,11 @@ button:hover{
 .result{
     font-size:24px;
     font-weight:bold;
-    margin-top:20px;
+    margin-top:15px;
 }
 
 .risk{
     font-size:20px;
-    margin-top:10px;
-}
-
-.stats{
-    display:flex;
-    justify-content:space-between;
-    flex-wrap:wrap;
-}
-
-.stat-box{
-    background:#334155;
-    padding:15px;
-    border-radius:10px;
-    width:22%;
-    text-align:center;
     margin-top:10px;
 }
 
@@ -90,13 +88,21 @@ table{
     border-collapse:collapse;
 }
 
-table,th,td{
-    border:1px solid white;
-}
-
 th,td{
+    border:1px solid white;
     padding:10px;
     text-align:center;
+}
+
+img{
+    max-width:100%;
+    border-radius:10px;
+}
+
+.footer{
+    text-align:center;
+    margin-top:30px;
+    color:#94a3b8;
 }
 
 </style>
@@ -115,103 +121,51 @@ th,td{
 
 </div>
 
-<div class="card">
+<div class="cards">
 
-<h2>Dashboard Statistics</h2>
-
-<div class="stats">
-
-<div class="stat-box">
-<h3>9082</h3>
+<div class="stat">
+<h2>{{ total }}</h2>
 <p>Total Transactions</p>
 </div>
 
-<div class="stat-box">
-<h3>81</h3>
+<div class="stat">
+<h2>{{ fraud }}</h2>
 <p>Fraud Cases</p>
 </div>
 
-<div class="stat-box">
-<h3>9001</h3>
+<div class="stat">
+<h2>{{ normal }}</h2>
 <p>Normal Cases</p>
 </div>
 
-<div class="stat-box">
-<h3>99.9%</h3>
+<div class="stat">
+<h2>99.94%</h2>
 <p>Accuracy</p>
 </div>
 
 </div>
 
-</div>
 <div class="card">
 
 <h2>Fraud Distribution</h2>
 
 <img src="{{ url_for('static',
-filename='charts/fraud_pie.png') }}"
-width="350">
+filename='charts/fraud_pie.png') }}">
 
 </div>
+
 <div class="card">
 
 <h2>About Project</h2>
 
 <p>
-FraudShield-AI-X is an AI-powered banking fraud detection
-system designed to identify suspicious transactions using
-machine learning techniques.
+FraudShield-AI-X is an AI-powered fraud detection system
+that analyzes banking transactions and identifies
+suspicious activities using machine learning.
 </p>
 
 </div>
-<div class="card">
 
-<h2>Model Information</h2>
-
-<p>Algorithm : Decision Tree Classifier</p>
-
-<p>Dataset Size : 9082</p>
-
-<p>Features : 3408+</p>
-
-<p>Accuracy : 99.94%</p>
-
-<p>Fraud Recall : 95.24%</p>
-
-</div>
-<div class="card">
-
-<h2>Confusion Matrix</h2>
-
-<p>True Positives : 20</p>
-
-<p>True Negatives : 1796</p>
-
-<p>False Positives : 0</p>
-
-<p>False Negatives : 1</p>
-
-</div>
-<div class="card">
-
-<h2>Developer Information</h2>
-
-<p>Name : Sagar Agrawal</p>
-
-<p>Project : FraudShield-AI-X</p>
-
-<p>Tech Stack :</p>
-
-<ul>
-<li>Python</li>
-<li>Flask</li>
-<li>Pandas</li>
-<li>Scikit-Learn</li>
-<li>HTML</li>
-<li>CSS</li>
-</ul>
-
-</div>
 <div class="card">
 
 <h2>Transaction Checker</h2>
@@ -221,8 +175,8 @@ machine learning techniques.
 <input
 type="number"
 name="row"
-placeholder="Enter Transaction Row Number"
 value="{{ row_value }}"
+placeholder="Enter Transaction Row Number"
 required>
 
 <br>
@@ -251,12 +205,36 @@ Predict
 
 <div class="card">
 
+<h2>Model Information</h2>
+
+<p>Algorithm : Decision Tree Classifier</p>
+<p>Dataset Size : 9082</p>
+<p>Features : 3408+</p>
+<p>Accuracy : 99.94%</p>
+<p>Fraud Recall : 95.24%</p>
+
+</div>
+
+<div class="card">
+
+<h2>Confusion Matrix</h2>
+
+<p>True Positives : 20</p>
+<p>True Negatives : 1796</p>
+<p>False Positives : 0</p>
+<p>False Negatives : 1</p>
+
+</div>
+
+<div class="card">
+
 <h2>Prediction History</h2>
 
 <table>
 
 <tr>
 <th>Transaction ID</th>
+<th>Risk</th>
 <th>Result</th>
 </tr>
 
@@ -265,7 +243,7 @@ Predict
 <tr>
 
 <td>{{ item.row }}</td>
-
+<td>{{ item.risk }}</td>
 <td>{{ item.result }}</td>
 
 </tr>
@@ -273,6 +251,69 @@ Predict
 {% endfor %}
 
 </table>
+
+<br>
+
+<a href="/download">
+
+<button>
+Download Prediction Report
+</button>
+
+</a>
+
+</div>
+
+<div class="card">
+
+<h2>System Workflow</h2>
+
+<ol>
+
+<li>User enters transaction ID</li>
+
+<li>Machine Learning model analyzes transaction</li>
+
+<li>Risk level is generated</li>
+
+<li>Fraud prediction is displayed</li>
+
+<li>History is stored</li>
+
+<li>Report can be downloaded</li>
+
+</ol>
+
+</div>
+
+<div class="card">
+
+<h2>Developer Information</h2>
+
+<p>Name : Sagar Agrawal</p>
+
+<p>Project : FraudShield-AI-X</p>
+
+<p>Tech Stack :</p>
+
+<ul>
+
+<li>Python</li>
+<li>Flask</li>
+<li>Pandas</li>
+<li>Scikit-Learn</li>
+<li>HTML</li>
+<li>CSS</li>
+
+</ul>
+
+</div>
+
+<div class="footer">
+
+<p>FraudShield-AI-X © 2026</p>
+
+<p>AI Powered Banking Fraud Detection System</p>
 
 </div>
 

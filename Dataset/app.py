@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, send_file
 import pandas as pd
 import joblib
 
@@ -16,23 +16,29 @@ text_columns = data.select_dtypes(include=["object", "str"]).columns
 for col in text_columns:
     data[col] = data[col].astype("category").cat.codes
 
+# Features
 X = data.drop(["F3912", "F3924"], axis=1)
 
-# Prediction History
+# Statistics
+TOTAL_TRANSACTIONS = len(data)
+FRAUD_COUNT = int(data["F3912"].sum())
+NORMAL_COUNT = TOTAL_TRANSACTIONS - FRAUD_COUNT
+
+# History
 history = []
 
 @app.route("/", methods=["GET", "POST"])
 def home():
 
     result = ""
-    row_value = ""
     risk = ""
+    row_value = ""
 
     if request.method == "POST":
 
-        row_value = request.form["row"]
-
         try:
+
+            row_value = request.form["row"]
 
             row = int(row_value)
 
@@ -41,27 +47,48 @@ def home():
             prediction = model.predict(sample)
 
             if prediction[0] == 1:
+
                 result = "🚨 Fraud Detected"
                 risk = "🔴 HIGH RISK"
 
             else:
+
                 result = "✅ Normal Transaction"
                 risk = "🟢 LOW RISK"
 
             history.insert(0, {
                 "row": row,
-                "result": result
+                "result": result,
+                "risk": risk
             })
 
         except:
+
             result = "Invalid Transaction ID"
 
     return render_template(
         "index.html",
         result=result,
-        row_value=row_value,
         risk=risk,
-        history=history[:10]
+        row_value=row_value,
+        history=history[:10],
+        total=TOTAL_TRANSACTIONS,
+        fraud=FRAUD_COUNT,
+        normal=NORMAL_COUNT
+    )
+
+@app.route("/download")
+def download():
+
+    df = pd.DataFrame(history)
+
+    file_name = "prediction_history.csv"
+
+    df.to_csv(file_name, index=False)
+
+    return send_file(
+        file_name,
+        as_attachment=True
     )
 
 if __name__ == "__main__":
